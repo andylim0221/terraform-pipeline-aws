@@ -7,7 +7,7 @@ resource "aws_api_gateway_model" "model" {
   name         = "UserModel"
   description  = "Request schema model."
   content_type = "application/json"
-  schema = <<EOF
+  schema       = <<EOF
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "UserModel",
@@ -37,18 +37,18 @@ resource "aws_api_gateway_resource" "resource" {
 }
 
 resource "aws_api_gateway_method" "method" {
-  rest_api_id   = aws_api_gateway_rest_api.api.id
-  resource_id   = aws_api_gateway_resource.resource.id
-  http_method   = "POST"
-  authorization = "NONE"
+  rest_api_id      = aws_api_gateway_rest_api.api.id
+  resource_id      = aws_api_gateway_resource.resource.id
+  http_method      = "POST"
+  authorization    = "NONE"
   api_key_required = true
   request_models = {
     "application/json" = aws_api_gateway_model.model.name
   }
   request_parameters = {
-    "method.request.header.x-api-key" = true
+    "method.request.header.x-api-key"    = true
     "method.request.header.content-type" = true
-    "method.request.querystring.code" = true
+    "method.request.querystring.code"    = true
   }
   request_validator_id = aws_api_gateway_request_validator.validator.id
 }
@@ -122,9 +122,9 @@ resource "aws_api_gateway_method_settings" "all" {
   method_path = "*/*"
 
   settings {
-    metrics_enabled = false
-    logging_level   = "OFF"
-    throttling_rate_limit = 1000
+    metrics_enabled        = false
+    logging_level          = "OFF"
+    throttling_rate_limit  = 1000
     throttling_burst_limit = 500
   }
 }
@@ -134,8 +134,8 @@ resource "aws_api_gateway_api_key" "api_key" {
 }
 
 resource "aws_api_gateway_usage_plan" "usage_plan" {
-  name         = "my_usage_plan"
-  description  = "API usage plan."
+  name        = "my_usage_plan"
+  description = "API usage plan."
 
   api_stages {
     api_id = aws_api_gateway_rest_api.api.id
@@ -276,16 +276,16 @@ EOF
 }
 
 resource "aws_lambda_function" "test_lambda" {
-  filename      = "resources/lambda_function.zip"
-  function_name = "tf_lambda"
-  role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "lambda_function.lambda_handler"
+  filename         = "resources/lambda_function.zip"
+  function_name    = "tf_lambda"
+  role             = aws_iam_role.iam_for_lambda.arn
+  handler          = "lambda_function.lambda_handler"
   source_code_hash = filebase64sha256("resources/lambda_function.zip")
-  runtime = "python3.9"
+  runtime          = "python3.9"
   environment {
     variables = {
       ENCODING = "latin-1"
-      CORS = "*"
+      CORS     = "*"
     }
   }
 }
