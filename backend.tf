@@ -3,9 +3,9 @@
 terraform {
 
   backend "remote" {
-    organization = "<org-name>"
+    organization = "example-org-d04ae9"
     workspaces {
-      name = "<workspace-name>"
+      name = "aws01"
     }
   }
 
