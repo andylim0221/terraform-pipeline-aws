@@ -1,6 +1,6 @@
 resource "aws_wafv2_web_acl" "waf_regional" {
 
-  name        = "StandardACL_Regional"
+  name        = "StandardACL_Regional_2"
   description = "Standard WebACL for API Gateway, TerraForm deploy."
   scope       = "REGIONAL"
   default_action {

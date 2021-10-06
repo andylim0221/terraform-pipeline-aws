@@ -10,7 +10,7 @@ variable "lambda_name" {
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
-  name               = format("%s_role", var.lambda_name)
+  name               = format("%s_role_2", var.lambda_name)
   assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",
