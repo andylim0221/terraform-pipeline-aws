@@ -160,11 +160,17 @@ resource "aws_api_gateway_usage_plan_key" "plan_key" {
   usage_plan_id = aws_api_gateway_usage_plan.usage_plan.id
 }
 
+module "waf" {
+  source = "./waf.tf"
+}
 resource "aws_wafv2_web_acl_association" "waf_association" {
   resource_arn = aws_api_gateway_stage.stage.arn
-  web_acl_arn  = aws_wafv2_web_acl.waf_regional.arn
+  web_acl_arn  = module.waf.arn
 }
 
+module "lambda" {
+  source = "./lambda.tf"
+}
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
