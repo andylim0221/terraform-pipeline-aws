@@ -3,10 +3,6 @@ variable "api_name" {
   type    = string
   default = "myapi"
 }
-variable "lambda_name" {
-  type    = string
-  default = "tf_lambda"
-}
 
 # Internal modules.
 module "waf" {
@@ -77,7 +73,7 @@ resource "aws_api_gateway_integration" "integration" {
   http_method             = aws_api_gateway_method.method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = module.lambda.invoke_arn
+  uri                     = module.lambda.lambda_invoke_arn
 }
 
 resource "aws_api_gateway_method_response" "response_200" {
@@ -180,13 +176,13 @@ resource "aws_api_gateway_usage_plan_key" "plan_key" {
 
 resource "aws_wafv2_web_acl_association" "waf_association" {
   resource_arn = aws_api_gateway_stage.stage.arn
-  web_acl_arn  = module.waf.arn
+  web_acl_arn  = module.waf.waf_arn
 }
 
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = module.lambda.function_name
+  function_name = module.lambda.lambda_function_name
   principal     = "apigateway.amazonaws.com"
 
   # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
