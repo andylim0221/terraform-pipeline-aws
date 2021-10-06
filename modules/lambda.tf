@@ -1,3 +1,14 @@
+variable "lambda_name" {
+  type        = string
+  description = "The name of the Lambda function."
+  default     = "tf_lambda"
+  #  sensitive   = true
+  #  validation {
+  #    condition     = length(var.ami) > 4 && substr(var.ami, 0, 4) == "ami-"
+  #    error_message = "Please provide a valid value for variable AMI."
+  #  }
+}
+
 resource "aws_iam_role" "iam_for_lambda" {
   name               = format("%s_role", var.lambda_name)
   assume_role_policy = <<EOF
