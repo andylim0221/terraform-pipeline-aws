@@ -161,7 +161,7 @@ resource "aws_api_gateway_usage_plan_key" "plan_key" {
 }
 
 module "waf" {
-  source = "./waf.tf"
+  source = "./modules"
 }
 resource "aws_wafv2_web_acl_association" "waf_association" {
   resource_arn = aws_api_gateway_stage.stage.arn
@@ -169,7 +169,7 @@ resource "aws_wafv2_web_acl_association" "waf_association" {
 }
 
 module "lambda" {
-  source = "./lambda.tf"
+  source = "./modules"
 }
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
