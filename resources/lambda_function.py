@@ -8,6 +8,8 @@ def lambda_handler(event, context):
     """
     Test basic Lambda function.
 
+    Updated: October 5th, 2021 - 19:45PM MYT
+
     return dict
     """
     # Main action.
