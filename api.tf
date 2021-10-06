@@ -1,9 +1,3 @@
-# Parameter variables.
-variable "api_name" {
-  type    = string
-  default = "myapi"
-}
-
 # Internal modules.
 module "waf" {
   source = "./modules"

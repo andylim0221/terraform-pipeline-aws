@@ -1,8 +1,3 @@
-variable "lambda_name" {
-  type    = string
-  default = "tf_lambda"
-}
-
 resource "aws_iam_role" "iam_for_lambda" {
   name               = format("%s_role", var.lambda_name)
   assume_role_policy = <<EOF
