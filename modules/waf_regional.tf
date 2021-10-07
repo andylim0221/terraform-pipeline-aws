@@ -1,3 +1,14 @@
+variable "waf_name" {
+  type        = string
+  description = "The name of the Lambda function."
+  default     = "StandardACL_Regional"
+  #  sensitive   = true
+  #  validation {
+  #    condition     = length(var.ami) > 4 && substr(var.ami, 0, 4) == "ami-"
+  #    error_message = "Please provide a valid value for variable AMI."
+  #  }
+}
+
 resource "aws_wafv2_web_acl" "waf_regional" {
   name        = var.waf_name
   description = "Standard WebACL for API Gateway, TerraForm deploy."
