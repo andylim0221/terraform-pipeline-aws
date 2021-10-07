@@ -16,7 +16,7 @@ def lambda_handler(event, context):
     try:
         assert event['headers']['content-type'] == 'application/json'
         assert re.match(r'^[\d]+$', event['queryStringParameters']['code'])
-        assert re.match(r'^[\w\;]+$', json.loads(event['body'])['myname'])
+        assert re.match(r'^[\w]+$', json.loads(event['body'])['myname'])
         code = event['queryStringParameters']['code']
         myname = json.loads(event['body'])['myname']
     except Exception as e:
