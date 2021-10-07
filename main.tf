@@ -1,36 +1,5 @@
-resource "aws_iam_role" "iam_for_lambda" {
-  name               = format("%s_role", var.lambda_name)
-  assume_role_policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": "sts:AssumeRole",
-            "Principal": {
-                "Service": "lambda.amazonaws.com"
-            },
-            "Effect": "Allow",
-            "Sid": ""
-        }
-    ]
-}
-EOF
-}
-
-resource "aws_lambda_function" "function" {
-  architectures    = ["arm64"]
-  filename         = "resources/lambda_function.zip"
-  function_name    = var.lambda_name
-  role             = aws_iam_role.iam_for_lambda.arn
-  handler          = "lambda_function.lambda_handler"
-  source_code_hash = filebase64sha256("resources/lambda_function.zip")
-  runtime          = "python3.9"
-  environment {
-    variables = {
-      ENCODING = "latin-1"
-      CORS     = "*"
-    }
-  }
+module "modules" {
+  source = "./modules"
 }
 
 resource "aws_api_gateway_rest_api" "api" {
@@ -94,7 +63,7 @@ resource "aws_api_gateway_integration" "integration" {
   http_method             = aws_api_gateway_method.method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.function.invoke_arn
+  uri                     = module.modules.lambda_invoke_arn
 }
 
 resource "aws_api_gateway_method_response" "response_200" {
@@ -195,89 +164,15 @@ resource "aws_api_gateway_usage_plan_key" "plan_key" {
   usage_plan_id = aws_api_gateway_usage_plan.usage_plan.id
 }
 
-resource "aws_wafv2_web_acl" "waf_regional" {
-  name        = var.waf_name
-  description = "Standard WebACL for API Gateway, TerraForm deploy."
-  scope       = "REGIONAL"
-  default_action {
-    allow {}
-  }
-  rule {
-    name     = "AWSManagedRulesCommonRule"
-    priority = 0
-    override_action {
-      none {}
-    }
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesCommonRuleSet"
-        vendor_name = "AWS"
-        # excluded_rule {
-        #   name = "GenericRFI_QUERYARGUMENTS"
-        # }
-        # excluded_rule {
-        #   name = "GenericRFI_BODY"
-        # }
-      }
-    }
-    visibility_config {
-      cloudwatch_metrics_enabled = false
-      metric_name                = "AWSManagedRulesCommonRule"
-      sampled_requests_enabled   = false
-    }
-  }
-  rule {
-    name     = "AWSManagedRulesKnownBadInputsRule"
-    priority = 1
-    override_action {
-      none {}
-    }
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesKnownBadInputsRuleSet"
-        vendor_name = "AWS"
-      }
-    }
-    visibility_config {
-      cloudwatch_metrics_enabled = false
-      metric_name                = "AWSManagedRulesKnownBadInputsRule"
-      sampled_requests_enabled   = false
-    }
-  }
-  rule {
-    name     = "AWSManagedRulesAmazonIpReputation"
-    priority = 2
-    override_action {
-      none {}
-    }
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesAmazonIpReputationList"
-        vendor_name = "AWS"
-      }
-    }
-    visibility_config {
-      cloudwatch_metrics_enabled = false
-      metric_name                = "AWSManagedRulesAmazonIpReputation"
-      sampled_requests_enabled   = false
-    }
-  }
-  visibility_config {
-    cloudwatch_metrics_enabled = false
-    metric_name                = "StandardACL"
-    sampled_requests_enabled   = false
-  }
-}
-
 resource "aws_wafv2_web_acl_association" "waf_association" {
   resource_arn = aws_api_gateway_stage.stage.arn
-  web_acl_arn  = aws_wafv2_web_acl.waf_regional.arn
+  web_acl_arn  = module.modules.waf_regional_arn
 }
 
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.function.function_name
+  function_name = module.modules.lambda_function_name
   principal     = "apigateway.amazonaws.com"
 
   # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
