@@ -1,7 +1,11 @@
+# Main infrastructure definition.
+
+## Get local modules.
 module "modules" {
   source = "./modules"
 }
 
+## Start creating main resources.
 resource "aws_api_gateway_rest_api" "api" {
   name = var.api_name
 }
@@ -179,6 +183,7 @@ resource "aws_lambda_permission" "apigw_lambda" {
   source_arn = "${aws_api_gateway_rest_api.api.execution_arn}/*/${aws_api_gateway_method.method.http_method}/${aws_api_gateway_resource.resource.path_part}"
 }
 
+## Outputs.
 output "API_Endpoint" {
   value     = "${aws_api_gateway_stage.stage.invoke_url}/${aws_api_gateway_resource.resource.path_part}"
   sensitive = false
