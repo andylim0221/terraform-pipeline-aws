@@ -1,7 +1,7 @@
 # Connect Terraform to AWS.
 terraform {
   backend "remote" {
-    organization = "example-org-d04ae9"
+    organization = "fer1035"
     workspaces {
       name = "aws01"
     }
