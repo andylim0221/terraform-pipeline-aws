@@ -26,12 +26,12 @@ resource "aws_wafv2_web_acl" "waf_regional" {
       managed_rule_group_statement {
         name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
-        # excluded_rule {
-        #   name = "GenericRFI_QUERYARGUMENTS"
-        # }
-        # excluded_rule {
-        #   name = "GenericRFI_BODY"
-        # }
+        excluded_rule {
+          name = "GenericRFI_QUERYARGUMENTS"
+        }
+        excluded_rule {
+          name = "GenericRFI_BODY"
+        }
       }
     }
     visibility_config {
