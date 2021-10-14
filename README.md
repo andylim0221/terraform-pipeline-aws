@@ -6,7 +6,7 @@ Terraform pipeline for AWS.
 
 ## Overview
 
-Terraform pipelining experiment - the pipeline creates a secure Application Programming Interface (API) in AWS API Gateway with a Lambda Proxy backend. The API function is defined in the [Lambda function](resources/lambda_function.py).
+Terraform pipelining experiment - the pipeline creates a secure Application Programming Interface (API) in AWS API Gateway with a Lambda Proxy backend. The Security Demonstrator API function is defined in the [Lambda function](modules/security_demo/resources/lambda_function.py).
 
 ## Contributions
 
