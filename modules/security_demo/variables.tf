@@ -8,3 +8,15 @@ variable "api_name" {
   #    error_message = "Please provide a valid value for variable AMI."
   #  }
 }
+
+variable "lambda_name" {
+  type        = string
+  description = "The name of the Lambda function."
+  default     = "tf_lambda"
+}
+
+variable "waf_name" {
+  type        = string
+  description = "The name of the Lambda function."
+  default     = "StandardACL_Regional"
+}
