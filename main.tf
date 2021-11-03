@@ -9,3 +9,8 @@ output "api_endpoint" {
   value     = module.security_demo.api_endpoint
   sensitive = false
 }
+
+# Tennis.
+module "tennis" {
+  source = "./modules/tennis"
+}

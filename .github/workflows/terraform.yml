@@ -18,7 +18,10 @@ jobs:
       - name: ZIP Lambda function
         id: zip
         run: |
-          cd modules/security_demo/resources/
+          cd modules
+          cd security_demo/resources/
+          zip -r9 lambda_function.zip lambda_function.py
+          cd ../../tennis/resources/
           zip -r9 lambda_function.zip lambda_function.py
 
       - name: Setup Terraform
