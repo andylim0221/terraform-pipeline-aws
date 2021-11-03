@@ -14,7 +14,7 @@ resource "aws_s3_bucket" "bucket_trail" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "${aws_s3_bucket.bucket_trail.arn}"
+            "Resource": "arn:aws:s3:::pp-buckettrail-${local.region}-${local.account_id}"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -23,7 +23,7 @@ resource "aws_s3_bucket" "bucket_trail" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "${aws_s3_bucket.bucket_trail.arn}/*"
+            "Resource": ["arn:aws:s3:::pp-buckettrail-${local.region}-${local.account_id}/*"]
         }
     ]
 }
