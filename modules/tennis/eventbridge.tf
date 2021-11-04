@@ -13,7 +13,8 @@ resource "aws_cloudwatch_event_rule" "rule" {
       "s3.amazonaws.com"
     ],
     "eventName": [
-      "PutObject"
+      "PutObject",
+      "CopyObject"
     ],
     "requestParameters": {
       "bucketName": [
