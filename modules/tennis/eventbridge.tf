@@ -36,10 +36,7 @@ resource "aws_cloudwatch_event_target" "lambda" {
       key    = "$.detail.requestParameters.key"
     }
     input_template = <<EOF
-{
-  "bucket": <bucket>,
-  "key": <key>
-}
+{"bucket": <bucket>, "key": <key>}
 EOF
   }
 }
