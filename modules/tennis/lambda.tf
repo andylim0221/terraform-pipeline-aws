@@ -44,8 +44,8 @@ resource "aws_lambda_function" "function" {
   environment {
     variables = {
       ENABLED = "true",
-      BUCJET1 = aws_s3_bucket.bucket1.bucket,
-      BUCJET2 = aws_s3_bucket.bucket2.bucket
+      BUCKET1 = aws_s3_bucket.bucket1.bucket,
+      BUCKET2 = aws_s3_bucket.bucket2.bucket
     }
   }
 }
