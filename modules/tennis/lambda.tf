@@ -44,7 +44,7 @@ resource "aws_lambda_function" "function" {
   handler          = "lambda_function.lambda_handler"
   source_code_hash = filebase64sha256("./modules/tennis/resources/lambda_function.zip")
   runtime          = "python3.9"
-  timeouts         = 10
+  timeout          = 10
   environment {
     variables = {
       ENABLED = "true",
