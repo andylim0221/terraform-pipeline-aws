@@ -25,8 +25,10 @@ EOF
           Action   = ["s3:*"]
           Effect   = "Allow"
           Resource = [
-            aws_s3_bucket.bucket1.arn,
-            aws_s3_bucket.bucket2.arn
+            "${aws_s3_bucket.bucket1.arn}",
+            "${aws_s3_bucket.bucket1.arn}/*",
+            "${aws_s3_bucket.bucket2.arn}",
+            "${aws_s3_bucket.bucket2.arn}/*",
           ]
         },
       ]
