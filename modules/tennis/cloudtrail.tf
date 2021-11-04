@@ -2,33 +2,24 @@ resource "aws_s3_bucket" "bucket_trail" {
   bucket        = "pp-buckettrail-${local.region}-${local.account_id}"
   acl           = "private"
   force_destroy = true
-
   policy        = <<POLICY
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AWSCloudTrailAclCheck",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::pp-buckettrail-${local.region}-${local.account_id}"
-        },
-        {
-            "Sid": "AWSCloudTrailWrite",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": ["arn:aws:s3:::pp-buckettrail-${local.region}-${local.account_id}/*"]
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "cloudtrail.amazonaws.com"
+      },
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::pp-buckettrail-${local.region}-${local.account_id}",
+        "arn:aws:s3:::pp-buckettrail-${local.region}-${local.account_id}/*"
+      ]
+    }
+  ]
 }
 POLICY
-
 }
 
 resource "aws_cloudtrail" "trail" {
@@ -38,10 +29,8 @@ resource "aws_cloudtrail" "trail" {
   event_selector {
     read_write_type           = "WriteOnly"
     include_management_events = false
-
     data_resource {
       type = "AWS::S3::Object"
-
       # Make sure to append a trailing '/' to your ARN if you want
       # to monitor all objects in a bucket.
       values = [
