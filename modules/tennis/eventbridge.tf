@@ -2,10 +2,16 @@ resource "aws_cloudwatch_event_rule" "rule" {
   name          = "pp-rule-${local.region}-${local.account_id}"
   event_pattern = <<EOF
 {
-  "source": ["aws.s3"],
-  "detail-type": ["AWS API Call via CloudTrail"],
+  "source": [
+    "aws.s3"
+  ],
+  "detail-type": [
+    "AWS API Call via CloudTrail"
+  ],
   "detail": {
-    "eventSource": ["s3.amazonaws.com"],
+    "eventSource": [
+      "s3.amazonaws.com"
+    ],
     "eventName": [
       "PutObject"
     ],
