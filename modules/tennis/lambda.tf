@@ -22,8 +22,8 @@ EOF
       Version = "2012-10-17"
       Statement = [
         {
-          Action   = ["s3:*"]
-          Effect   = "Allow"
+          Action = ["s3:*"]
+          Effect = "Allow"
           Resource = [
             "${aws_s3_bucket.bucket1.arn}",
             "${aws_s3_bucket.bucket1.arn}/*",
