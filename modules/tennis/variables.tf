@@ -10,3 +10,9 @@ variable "lambda_delay" {
   description = "Lambda function delay before each execution."
   default     = 2
 }
+
+variable "enabled" {
+  type        = string
+  description = "System control switch."
+  default     = "false"
+}

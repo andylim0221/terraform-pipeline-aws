@@ -47,7 +47,7 @@ resource "aws_lambda_function" "function" {
   timeout          = 10
   environment {
     variables = {
-      ENABLED = "false",
+      ENABLED = var.enabled,
       DELAY   = var.lambda_delay,
       BUCKET1 = aws_s3_bucket.bucket1.bucket,
       BUCKET2 = aws_s3_bucket.bucket2.bucket
