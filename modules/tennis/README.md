@@ -21,7 +21,7 @@ This infrastructure provisions two S3 buckets (plus another one for CloudTrail).
 
 > **CHARGES MAY APPLY**
 
-The main purpose of this demonstrator is to show the illustrate how an event-driven architecture works. When a file is placed in S3 (or "moved" over from the other bucket), CloudTrail records a "PutObject" (or "CopyObject" in the case of a move) event from S3, triggering the Lambda function to move the file to the other bucket. This happens perpetually until the **ENABLED** switch in the Lambda function Environment Variables is set to **false**.
+The main purpose of this demonstrator is to illustrate how an event-driven architecture works. When a file is placed in S3 (or "moved" over from the other bucket), CloudTrail records a "PutObject" (or "CopyObject" in the case of a move) event from S3, triggering the Lambda function to move the file to the other bucket. This happens perpetually until the **ENABLED** switch in the Lambda function Environment Variables is set to **false**.
 
 Each Lambda execution is logged in CloudWatch, so you can use it to "watch" the match using the provisioned dashboard (see Match Statistics).
 
