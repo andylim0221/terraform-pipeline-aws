@@ -1,4 +1,4 @@
-"""Test basic Lambda function."""
+"""Play tennis in S3."""
 import json
 import os
 import time
@@ -7,14 +7,14 @@ import boto3
 
 def lambda_handler(event, context):
     """
-    Test basic Lambda function.
+    Play tennis in S3.
 
     return dict
     """
     # Main action.
     if os.environ['ENABLED'] == 'true':
 
-        time.sleep(2)
+        time.sleep(os.environ['DELAY'])
 
         if event['bucket'] == os.environ['BUCKET1']:
             bucket_src = os.environ['BUCKET1']

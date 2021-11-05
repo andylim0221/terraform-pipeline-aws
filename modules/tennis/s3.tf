@@ -1,6 +1,7 @@
 resource "aws_s3_bucket" "bucket1" {
-  bucket = "pp-bucket1-${local.region}-${local.account_id}"
-  acl    = "private"
+  bucket        = "pp-bucket1-${local.region}-${local.account_id}"
+  acl           = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_public_access_block" "bucket1" {
@@ -12,8 +13,9 @@ resource "aws_s3_bucket_public_access_block" "bucket1" {
 }
 
 resource "aws_s3_bucket" "bucket2" {
-  bucket = "pp-bucket2-${local.region}-${local.account_id}"
-  acl    = "private"
+  bucket        = "pp-bucket2-${local.region}-${local.account_id}"
+  acl           = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_public_access_block" "bucket2" {
