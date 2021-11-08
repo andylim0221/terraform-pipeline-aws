@@ -14,7 +14,7 @@ def lambda_handler(event, context):
     # Main action.
     if os.environ['ENABLED'] == 'true':
 
-        time.sleep(os.environ['DELAY'])
+        time.sleep(int(os.environ['DELAY']))
 
         if event['bucket'] == os.environ['BUCKET1']:
             bucket_src = os.environ['BUCKET1']
